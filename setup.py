@@ -44,6 +44,7 @@ setup(
     platforms='any',
     install_requires=[
         'paho-mqtt>=1.3.1',
+        'tzlocal>=1.5.1',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
