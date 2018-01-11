@@ -8,8 +8,7 @@ host = "mqtt.hub.cloudahead.net"
 
 client_id = 'c8875760-de12-11e7-97a1-71ce277f6bc3'
 
-s_user_name = "user"
-s_password = "password"
+s_AccessToken = "password"
 
 rootCAPath = r'./root_ca.pem'
 privateKeyPath = r'key.pem'
@@ -27,7 +26,7 @@ if __name__ == '__main__':
     client.configureConnectDisconnectTimeout(10)  # 10 sec
     client.configureMQTTOperationTimeout(5)  # 5 sec
 
-    client.configureUsernamePassword(s_user_name, s_password)
+    client.configureAccessToken(s_AccessToken)
 
     # Connect and subscribe to AWS IoT
     client.connect()
