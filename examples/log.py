@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from IOTSeedSDK.log import IOTSeedLogger
+from IOTSeedSDK.IOTSeedLog import IOTSeedLogger
 import time
 
 

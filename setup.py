@@ -19,6 +19,7 @@ And run it:
 import re
 import ast
 from setuptools import setup
+import sys
 
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
@@ -27,6 +28,10 @@ with open('IOTSeedSDK/__init__.py', 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
 
+required_list = [
+        'AWSIoTPythonSDK>=1.3.1',
+        'tzlocal>=1.5.1',
+    ]
 
 setup(
     name='IOTSeedSDK',
@@ -42,10 +47,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='any',
-    install_requires=[
-        'paho-mqtt>=1.3.1',
-        'tzlocal>=1.5.1',
-    ],
+    install_requires=required_list,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
