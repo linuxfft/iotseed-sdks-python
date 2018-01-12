@@ -8,11 +8,12 @@ host = "mqtt.hub.cloudahead.net"
 
 client_id = 'c8875760-de12-11e7-97a1-71ce277f6bc3'
 
-s_AccessToken = "password"
+s_AccessToken = "TOKEN"
 
-rootCAPath = r'./root_ca.pem'
-privateKeyPath = r'key.pem'
-certificatePath = r'./cert.pem'
+
+rootCAPath = r'./mqtt-ca-server.pem'
+privateKeyPath = r'mqtt-client1-key.pem'
+certificatePath = r'./mqtt-client1.pem'
 
 if __name__ == '__main__':
     client = IOTSeedMqttClient(client_id)  # 客户端ID通过IOTSeed平台获取
@@ -35,8 +36,8 @@ if __name__ == '__main__':
     loopCount = 0
     while True:
         message = {}
-        message['message'] = "xxx"
-        message['sequence'] = "bbb"
+        message['message'] = u"demo_message"
+        message['sequence'] = u"demo_sequence"
         messageJson = json.dumps(message)
         client.publishAsync("empoweriot/devices/" + client_id + '/telemetry', messageJson, 1)
         loopCount += 1
