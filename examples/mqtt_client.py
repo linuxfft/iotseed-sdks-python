@@ -6,18 +6,30 @@ import time
 
 host = "mqtt.hub.cloudahead.net"
 
-client_id = 'c8875760-de12-11e7-97a1-71ce277f6bc3'
 
-s_AccessToken = "TOKEN"
+deviceid = 'deviceid'  # 设备ID,通过云平台获得
+
+s_AccessToken = "accessToken"  # 设备accessToken,通过云平台获得
+
+end = False
 
 
-rootCAPath = r'./mqtt-ca-server.pem'
-privateKeyPath = r'mqtt-client1-key.pem'
-certificatePath = r'./mqtt-client1.pem'
+rootCAPath = r'./mqtt-ca-server.pem'  # 根证书，通过云平台获得
+privateKeyPath = r'mqtt-client1-key.pem'  # 设备私钥，通过云平台获得
+certificatePath = r'./mqtt-client1.pem'  # 设备证书，通过云平台获得
+
+
+def customCallback(client, userdata, message):
+    print("Received a new message: ")
+    print(message.payload)
+    print("from topic: ")
+    print(message.topic)
+    print("--------------\n\n")
+
 
 if __name__ == '__main__':
-    client = IOTSeedMqttClient(client_id)  # 客户端ID通过IOTSeed平台获取
-    client.configureEndpoint(host, 38883)
+    client = IOTSeedMqttClient(deviceid)  # 客户端ID通过IOTSeed平台获取
+    client.configureEndpoint(host, 8883)
     client.configureCredentials(rootCAPath, privateKeyPath, certificatePath)
 
     # AWSIoTMQTTClient connection configuration
@@ -34,11 +46,14 @@ if __name__ == '__main__':
 
     # Publish to the same topic in a loop forever
     loopCount = 0
-    while True:
+    while not end:
         message = {}
-        message['message'] = u"demo_message"
-        message['sequence'] = u"demo_sequence"
+        message['test_data'] = 150.0
         messageJson = json.dumps(message)
-        client.publishAsync("empoweriot/devices/" + client_id + '/telemetry', messageJson, 1)
+        client.publish("empoweriot/devices/" + deviceid +"/telemetry", messageJson, 1)
+        message['test_data'] = 90.0
+        messageJson = json.dumps(message)
+        client.publish("empoweriot/devices/" + deviceid + "/telemetry", messageJson,1)
         loopCount += 1
-        time.sleep(1)
+        end = True
+        # time.sleep(10)
